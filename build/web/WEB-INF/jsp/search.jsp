@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -12,6 +13,9 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>${keyword}</h1>
+        <h1>Search for ${keyword} (${list_products.size()} kết quả)</h1>
+        <c:forEach var="product" items="${list_products}">
+            <p><a href="${product.url}" target="_blank"><c:out value="${product.name}"/></a></p>
+        </c:forEach>
     </body>
 </html>

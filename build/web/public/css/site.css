@@ -8,13 +8,74 @@ and open the template in the editor.
     Author     : Phan Hieu
 */
 
-.logo-container{
+body.search{
+    background-color: #e2e1e0;
+}
+.logo-container {
     margin: 150px auto 20px;
 }
-.logo{
+body.search .logo-container {
+    margin-top: 10px;
+}
+.logo {
     margin: auto;
     display: block;
 }
-.search-form{
+.search-form {
     margin: auto;
+}
+
+.product-container {
+    overflow: hidden;
+}
+.product-container .box-product {
+    float: left;
+    width: 20%;
+    padding: 10px;
+    box-sizing: border-box;
+}
+.product-container .box-product>a{
+    display: block;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    background-color: #fff;
+    text-decoration: none;
+    color: inherit;
+}
+.product-container .box-product .product-image img{
+    width: 100%;
+    height: calc(20vw - 30px);
+}
+.product-container .box-product .product-detail {
+    padding: 10px;
+}
+.product-container .box-product .product-detail .product-name {
+    font-weight: 700;
+    font-size: 16px;
+    margin-bottom: 5px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.product-container .box-product .product-detail .product-price {
+    color: #f57224;
+    font-size: 18px;
+}
+/*Small devices (landscape phones, 576px and up)*/
+@media (max-width: 767.98px) {
+    .product-container .box-product {
+        width: 50% !important;
+    }
+    .product-container .box-product .product-image img{
+        height: calc(50vw - 30px) !important;
+    }
+}
+
+/*Medium devices (tablets, 768px and up)*/
+@media (max-width: 991.98px) {
+    .product-container .box-product {
+        width: 25%;
+    }
+    .product-container .box-product .product-image img{
+        height: calc(25vw - 30px);
+    }
 }

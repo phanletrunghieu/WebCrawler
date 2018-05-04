@@ -39,19 +39,124 @@
             </div>
         </div>
         <div class="product-container">
-            <c:forEach var="product" items="${list_products}">
-                <div class="box-product">
-                    <a href="${product.url}" target="_blank">
-                        <div class="product-image">
-                            <img src="${product.image}" alt="${product.name}" />
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="mcard filter">
+                        <div>Đánh giá</div>
+                        <div class="rating">
+                            <span class="rating-content">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <span style="width: 100%;">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                </span>
+                            </span>
                         </div>
-                        <div class="product-detail">
-                            <div class="product-name">${product.name}</div>
-                            <div class="product-price">${product.offers.price}</div>
+                        <div class="rating">
+                            <span class="rating-content">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <span style="width: 80%;">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                </span>
+                            </span>
                         </div>
-                    </a>
+                        <div class="rating">
+                            <span class="rating-content">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <span style="width: 60%;">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                </span>
+                            </span>
+                        </div>
+                        <div class="rating">
+                            <span class="rating-content">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <span style="width: 40%;">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                </span>
+                            </span>
+                        </div>
+                        <div class="rating">
+                            <span class="rating-content">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <span style="width: 20%;">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                </span>
+                            </span>
+                        </div>
+                    </div>
                 </div>
-            </c:forEach>
+                <div class="col-md-9">
+                    <c:forEach var="product" items="${list_products}">
+                        <div class="box-product" id="${product.getId()}">
+                            <a class="mcard" href="${product.getUrl()}" target="_blank">
+                                <div class="product-image">
+                                    <img src="${product.getImage()}" alt="${product.getName()}" />
+                                </div>
+                                <div class="product-detail">
+                                    <div class="product-name">${product.getName()}</div>
+                                    <div class="product-price">${product.getPrice()}</div>
+                                    <div class="rating">
+                                        <span class="rating-content">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <span style="width: ${product.getRatingScorePercent()}%;">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                            </span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </c:forEach>
+                </div>
+            </div>
         </div>
     </body>
 </html>

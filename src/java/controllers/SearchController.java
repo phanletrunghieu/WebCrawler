@@ -8,8 +8,10 @@ package controllers;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.ArrayList;
+import java.util.List;
+import models.Product;
+import models.ProductJDBC;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -34,46 +36,93 @@ public class SearchController {
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
     public String index(ModelMap modelMap, @RequestParam(value = "s", defaultValue = " ", required = false) String keyword, @RequestParam(value = "page", required = false, defaultValue = "1") String page) throws UnsupportedEncodingException, IOException{
         JSONParser jsonParser = new JSONParser();
+        List<Product> list_products = new ArrayList<>();
         
         //sendo
         String sendoUrl = "https://www.sendo.vn/tim-kiem?q=" + URLEncoder.encode(keyword, "UTF-8") + "&p=" + page;
         Document sendoDocument = Jsoup.connect(sendoUrl).get();
         Elements box_products = sendoDocument.select("div.box_product");
-        JSONArray list_products = new JSONArray();
-        for (Element box_product : box_products) {
+        box_products.forEach((box_product) -> {
             Element name = box_product.select("a.name_product").first();
             Element image = box_product.select("img.imgtodrag").first();
             Element current_price = box_product.select("span.current_price").first();
-            if(name==null || current_price==null)
-                continue;
+            Element old_price = box_product.select("span.old_price").first();
             
-            JSONObject priceJSON = new JSONObject();
-            priceJSON.put("price", current_price.html());
+            if(name==null)
+                return;
             
-            JSONObject productJSON = new JSONObject();
-            productJSON.put("name", name.html());
-            productJSON.put("offers", priceJSON);
-            productJSON.put("url", name.attr("href"));
-            productJSON.put("image", image.attr("src"));
+            Product product = new Product();
+            product.setId("sendo"+box_product.attr("id"));
+            product.setName(name.html());
+            product.setUrl(name.attr("href"));
+            product.setImage(image.attr("src"));
             
-            list_products.add(productJSON);
-        }
+            if (current_price!=null) {
+                String price = current_price.html().replaceAll(",", "").replaceAll("\\.", "");
+                price = price.substring(0, price.length()-2);
+                
+                product.setPrice(Integer.parseInt(price));
+                
+            }
+            
+            if(old_price!=null){
+                String originalPrice = old_price.html().replaceAll(",", "").replaceAll("\\.", "");
+                originalPrice = originalPrice.substring(0, originalPrice.length()-2);
+                
+                product.setOriginalPrice(Integer.parseInt(originalPrice));
+            } else if(current_price!=null){
+                product.setOriginalPrice(product.getPrice());
+            }
+            
+            list_products.add(product);
+        });
         
         //lazada
         String lazadaUrl = "https://www.lazada.vn/catalog/?q=" + URLEncoder.encode(keyword, "UTF-8") + "&page=" + page;
         Document lazadaDocument = Jsoup.connect(lazadaUrl).get();
-        Element lazada_last_script = lazadaDocument.select("script").last();
-        String lazadaJsonStr = lazada_last_script.html();
+        String lazadaHTML = lazadaDocument.html();
+        int dataIndex1 = lazadaHTML.indexOf("window.pageData=")+"window.pageData=".length();
+        int dataIndex2 = lazadaHTML.indexOf("</script>", dataIndex1);
+        
+        String lazadaJsonStr = lazadaHTML.substring(dataIndex1, dataIndex2);
         try {
             JSONObject lazadaJson = (JSONObject) jsonParser.parse(lazadaJsonStr);
-            JSONArray lazada_list_products = (JSONArray) lazadaJson.get("itemListElement");
-            list_products.addAll(lazada_list_products);
+            JSONArray lazada_list_products = (JSONArray) ((JSONObject) lazadaJson.get("mods")).get("listItems");
+            
+            for (Object lazada_product : lazada_list_products) {
+                JSONObject x = (JSONObject)lazada_product;
+                
+                String price = ((String)x.get("priceShow")).replaceAll(",", "").replaceAll("\\.", "");
+                price = price.substring(0, price.length()-2);
+                
+                String originalPrice = (String)x.get("originalPrice");
+                if(originalPrice==null)
+                    originalPrice = price;
+                else
+                    originalPrice = originalPrice.substring(0, originalPrice.indexOf("."));
+                
+                Product product = new Product();
+                product.setId("lazada"+x.get("nid"));
+                product.setName(x.get("name").toString());
+                product.setImage(x.get("image").toString());
+                product.setPrice(Integer.parseInt(price));
+                product.setOriginalPrice(Integer.parseInt(originalPrice));
+                product.setUrl(x.get("productUrl").toString());
+                product.setRatingScore(Float.parseFloat(x.get("ratingScore").toString()));
+                list_products.add(product);
+            }
             
             System.out.println(list_products);
         } catch (ParseException ex) {}
         
         modelMap.put("keyword", keyword);
         modelMap.put("list_products", list_products);
+        
+        
+        ProductJDBC productJDBC = new ProductJDBC();
+        productJDBC.createsIfNotExist(list_products);
+        
+        
         return "search";
     }
 }

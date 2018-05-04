@@ -8,6 +8,11 @@ and open the template in the editor.
     Author     : Phan Hieu
 */
 
+.mcard{
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    background-color: #fff;
+}
+
 body.search{
     background-color: #e2e1e0;
 }
@@ -28,6 +33,13 @@ body.search .logo-container {
 .product-container {
     overflow: hidden;
 }
+.product-container>.row{
+    margin-left: 0;
+    margin-right: 0;
+}
+.product-container .filter {
+    padding: 10px;
+}
 .product-container .box-product {
     float: left;
     width: 20%;
@@ -36,14 +48,12 @@ body.search .logo-container {
 }
 .product-container .box-product>a{
     display: block;
-    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-    background-color: #fff;
     text-decoration: none;
     color: inherit;
 }
 .product-container .box-product .product-image img{
     width: 100%;
-    height: calc(20vw - 30px);
+    height: calc(15vw - 30px);
 }
 .product-container .box-product .product-detail {
     padding: 10px;
@@ -60,6 +70,23 @@ body.search .logo-container {
     color: #f57224;
     font-size: 18px;
 }
+
+.rating .rating-content {
+    position: relative;
+    white-space: nowrap;
+    font-size: 11px;
+    color: #b8b8b8;
+}
+
+.rating .rating-content span {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    overflow: hidden;
+    color: #ffc120;
+}
+
 /*Small devices (landscape phones, 576px and up)*/
 @media (max-width: 767.98px) {
     .product-container .box-product {

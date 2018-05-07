@@ -26,24 +26,26 @@
         <div class="logo-container">
             <img class="logo" src="https://raw.githubusercontent.com/ALeeMN/images-for-codepens/master/logo.jpg" width="270" height="95" alt="Google" id="logo"/>
         </div>
-        <div class="row">
-            <div class="col-md-6 search-form">
-                <form action="${contextPath}/search.html">
-                    <div class="input-group">
-                        <input type="text" class="form-control" name="s" value="${keyword}"/>
-                        <span class="input-group-append">
-                            <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i></button>
-                        </span>
-                    </div>
-                </form>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 search-form">
+                    <form action="${contextPath}/search.html">
+                        <div class="input-group">
+                            <input type="text" class="form-control" name="s" value="${keyword}"/>
+                            <span class="input-group-append">
+                                <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i></button>
+                            </span>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-        <div class="product-container">
+        <div class="my-container">
             <div class="row">
                 <div class="col-md-3">
                     <div class="mcard filter">
                         <div>Đánh giá</div>
-                        <div class="rating">
+                        <div class="rating" data-start="5">
                             <span class="rating-content">
                                 <i class="fa fa-star"></i>
                                 <i class="fa fa-star"></i>
@@ -59,7 +61,7 @@
                                 </span>
                             </span>
                         </div>
-                        <div class="rating">
+                        <div class="rating" data-start="4">
                             <span class="rating-content">
                                 <i class="fa fa-star"></i>
                                 <i class="fa fa-star"></i>
@@ -75,7 +77,7 @@
                                 </span>
                             </span>
                         </div>
-                        <div class="rating">
+                        <div class="rating" data-start="3">
                             <span class="rating-content">
                                 <i class="fa fa-star"></i>
                                 <i class="fa fa-star"></i>
@@ -91,7 +93,7 @@
                                 </span>
                             </span>
                         </div>
-                        <div class="rating">
+                        <div class="rating" data-start="2">
                             <span class="rating-content">
                                 <i class="fa fa-star"></i>
                                 <i class="fa fa-star"></i>
@@ -107,7 +109,7 @@
                                 </span>
                             </span>
                         </div>
-                        <div class="rating">
+                        <div class="rating" data-start="1">
                             <span class="rating-content">
                                 <i class="fa fa-star"></i>
                                 <i class="fa fa-star"></i>
@@ -123,38 +125,83 @@
                                 </span>
                             </span>
                         </div>
+                        <div class="rating" data-start="0">
+                            <span class="rating-content">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <span style="width: 0;">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                </span>
+                            </span>
+                        </div>
+                        
+                        <div>Giá</div>
+                        <div class="form-group row">
+                            <div class="col-md-5">
+                                <input id="inputMinPrice" type="number" value="${param.minPrice}" class="form-control" placeholder="Tối thiểu"/>
+                            </div>
+                            <div class="col-md-5">
+                                <input id="inputMaxPrice" type="number" value="${param.maxPrice}" class="form-control" placeholder="Tối đa"/>
+                            </div>
+                            <div class="col-md-2">
+                                <button id="btnChangeFilterPrice" type="button" class="btn btn-primary">Tìm</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-9">
-                    <c:forEach var="product" items="${list_products}">
-                        <div class="box-product" id="${product.getId()}">
-                            <a class="mcard" href="${product.getUrl()}" target="_blank">
-                                <div class="product-image">
-                                    <img src="${product.getImage()}" alt="${product.getName()}" />
-                                </div>
-                                <div class="product-detail">
-                                    <div class="product-name">${product.getName()}</div>
-                                    <div class="product-price">${product.getPrice()}</div>
-                                    <div class="rating">
-                                        <span class="rating-content">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <span style="width: ${product.getRatingScorePercent()}%;">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                            </span>
-                                        </span>
-                                    </div>
-                                </div>
-                            </a>
+                    <div class="order">
+                        <div class="mcard">
+                            <div class="num_result">Tìm thấy ${list_products.size()} kết quả</div>
+                            <div class="form-group">
+                                <label for="formControlOrder">Sắp xếp theo</label>
+                                <select class="form-control" id="formControlOrder" name="order">
+                                    <option value="1" ${param.order.equals("1") ? "selected" : ""}>Giá từ thấp lên cao</option>
+                                    <option value="2" ${param.order.equals("2") ? "selected" : ""}>Giá từ cao xuống thấp</option>
+                                    <option value="3" ${param.order.equals("3") ? "selected" : ""}>Nhiều sao</option>
+                                    <option value="4" ${param.order.equals("4") ? "selected" : ""}>Ít sao</option>
+                                </select>
+                            </div>
                         </div>
-                    </c:forEach>
+                    </div>
+                    <div class="product-container">
+                        <c:forEach var="product" items="${list_products}">
+                            <div class="box-product" id="${product.getId()}">
+                                <a class="mcard" href="${product.getUrl()}" target="_blank">
+                                    <div class="product-image">
+                                        <img src="${product.getImage()}" alt="${product.getName()}" />
+                                    </div>
+                                    <div class="product-detail">
+                                        <div class="product-name">${product.getName()}</div>
+                                        <div class="product-price">${product.getPriceDisplay()}</div>
+                                        <div class="rating">
+                                            <span class="rating-content">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <span style="width: ${product.getRatingScorePercent()}%;">
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                </span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </c:forEach>
+                    </div>
                 </div>
             </div>
         </div>

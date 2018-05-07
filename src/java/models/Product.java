@@ -67,6 +67,10 @@ public class Product {
     public Integer getPrice() {
         return price;
     }
+    
+    public String getPriceDisplay() {
+        return price + "đ";
+    }
 
     public void setPrice(Integer price) {
         this.price = price;

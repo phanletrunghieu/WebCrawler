@@ -34,7 +34,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class SearchController {
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
-    public String index(ModelMap modelMap, @RequestParam(value = "s", defaultValue = " ", required = false) String keyword, @RequestParam(value = "page", required = false, defaultValue = "1") String page) throws UnsupportedEncodingException, IOException{
+    public String index(
+            ModelMap modelMap,
+            @RequestParam(value = "s", defaultValue = " ", required = false) String keyword,
+            @RequestParam(value = "minPrice", defaultValue = "0", required = false) String minPrice,
+            @RequestParam(value = "maxPrice", defaultValue = "-1", required = false) String maxPrice,
+            @RequestParam(value = "ratingScore", defaultValue = "-1", required = false) String ratingScore,
+            @RequestParam(value = "order", defaultValue = "1", required = false) String order,
+            @RequestParam(value = "page", required = false, defaultValue = "1") String page
+    ) throws UnsupportedEncodingException, IOException{
         JSONParser jsonParser = new JSONParser();
         List<Product> list_products = new ArrayList<>();
         
@@ -115,12 +123,19 @@ public class SearchController {
             System.out.println(list_products);
         } catch (ParseException ex) {}
         
-        modelMap.put("keyword", keyword);
-        modelMap.put("list_products", list_products);
-        
-        
         ProductJDBC productJDBC = new ProductJDBC();
+        //lưu vào db
         productJDBC.createsIfNotExist(list_products);
+        
+        //query db
+        int iMinPrice = Integer.parseInt(minPrice);
+        int iMaxPrice = Integer.parseInt(maxPrice);
+        int iRatingScore = Integer.parseInt(ratingScore);
+        
+        List<Product> searchProducts = productJDBC.searchProducts(keyword, iMinPrice, iMaxPrice, iRatingScore, order);
+        
+        modelMap.put("keyword", keyword);
+        modelMap.put("list_products", searchProducts);
         
         
         return "search";

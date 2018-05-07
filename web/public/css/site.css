@@ -30,15 +30,51 @@ body.search .logo-container {
     margin: auto;
 }
 
-.product-container {
-    overflow: hidden;
+.my-container{
+    margin: 10px 0;
 }
-.product-container>.row{
+.my-container>.row{
     margin-left: 0;
     margin-right: 0;
 }
-.product-container .filter {
+.my-container .filter {
     padding: 10px;
+}
+
+.my-container .filter .rating {
+    cursor: pointer;
+}
+
+.my-container .filter .form-group.row{
+    margin-left: 0;
+    margin-right: 0;
+}
+.my-container .filter .form-group.row>div{
+    padding: 0 5px 0 0;
+}
+
+.order .mcard{
+    overflow: hidden;
+    padding: 3px 8px 1px;
+}
+
+.order .mcard .num_result{
+    line-height: 40px;
+    display: inline-block;
+}
+
+.order .mcard .form-group{
+    float: right;
+    margin: 0;
+}
+.order .mcard .form-group select{
+    display: inline-block;
+    width: auto;
+}
+
+.product-container {
+    overflow: hidden;
+    margin: 0 -10px;
 }
 .product-container .box-product {
     float: left;

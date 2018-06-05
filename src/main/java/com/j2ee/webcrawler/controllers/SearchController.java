@@ -6,7 +6,7 @@
 package com.j2ee.webcrawler.controllers;
 
 import com.j2ee.webcrawler.models.Product;
-import com.j2ee.webcrawler.models.ProductJDBC;
+import com.j2ee.webcrawler.models.ProductDAO;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -20,6 +20,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -34,6 +35,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 @RequestMapping(value = "/search")
 public class SearchController {
+    
+    @Autowired
+    private ProductDAO productDAO;
+    
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
     public String index(
             ModelMap modelMap,
@@ -124,16 +129,15 @@ public class SearchController {
             System.out.println(list_products);
         } catch (ParseException ex) {}
         
-        ProductJDBC productJDBC = new ProductJDBC();
         //lưu vào db
-        productJDBC.createsIfNotExist(list_products);
+        productDAO.createsIfNotExist(list_products);
         
         //query db
         int iMinPrice = Integer.parseInt(minPrice);
         int iMaxPrice = Integer.parseInt(maxPrice);
         int iRatingScore = Integer.parseInt(ratingScore);
         
-        List<Product> searchProducts = productJDBC.searchProducts(keyword, iMinPrice, iMaxPrice, iRatingScore, order);
+        List<Product> searchProducts = productDAO.searchProducts(keyword, iMinPrice, iMaxPrice, iRatingScore, order);
         
         modelMap.put("keyword", keyword);
         modelMap.put("list_products", searchProducts);

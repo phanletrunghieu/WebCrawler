@@ -7,10 +7,7 @@ package com.j2ee.webcrawler.models;
 
 import com.j2ee.webcrawler.utils.MyUtils;
 import java.util.List;
-import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -22,14 +19,14 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Repository
 @Transactional
-public class ProductJDBC {
-
+public class ProductDAO {
+    
     @Autowired
-    private JdbcTemplate jdbcTemplateObject;
+    private JdbcTemplate jdbcTemplate;
 
     public void create(Product product) {
         String SQL = "insert into Products (id, name, url, image, price, originalPrice, ratingScore) values (?, ?, ?, ?, ?, ?, ?)";
-        jdbcTemplateObject.update(SQL, product.getId(), product.getName(), product.getUrl(), product.getImage(), product.getPrice(), product.getOriginalPrice(), product.getRatingScore());
+        jdbcTemplate.update(SQL, product.getId(), product.getName(), product.getUrl(), product.getImage(), product.getPrice(), product.getOriginalPrice(), product.getRatingScore());
     }
     
     public void createIfNotExist(Product product) {
@@ -53,7 +50,7 @@ public class ProductJDBC {
     public Product getProduct(String id) {
         String SQL = "select * from Products where id = ?";
         try{
-            Product product = jdbcTemplateObject.queryForObject(SQL, new Object[]{id}, new ProductMapper());
+            Product product = jdbcTemplate.queryForObject(SQL, new Object[]{id}, new ProductMapper());
             return product;
         } catch(DataAccessException e){
             return null;
@@ -62,13 +59,13 @@ public class ProductJDBC {
 
     public List<Product> listProducts() {
         String SQL = "select * from Products";
-        List<Product> students = jdbcTemplateObject.query(SQL, new ProductMapper());
+        List<Product> students = jdbcTemplate.query(SQL, new ProductMapper());
         return students;
     }
 
     public void delete(String id) {
         String SQL = "delete from Products where id = ?";
-        jdbcTemplateObject.update(SQL, id);
+        jdbcTemplate.update(SQL, id);
     }
     
     public List<Product> searchProducts(String keyword, int minPrice, int maxPrice, int ratingScore, String order) {
@@ -104,7 +101,7 @@ public class ProductJDBC {
                 break;
         }
         
-        List<Product> students = jdbcTemplateObject.query(SQL, params, new ProductMapper());
+        List<Product> students = jdbcTemplate.query(SQL, params, new ProductMapper());
         return students;
     }
 }

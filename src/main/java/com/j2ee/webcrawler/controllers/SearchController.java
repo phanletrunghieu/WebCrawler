@@ -43,12 +43,15 @@ public class SearchController {
     public String index(
             ModelMap modelMap,
             @RequestParam(value = "s", defaultValue = " ", required = false) String keyword,
+            @RequestParam(value = "deep", defaultValue = "10", required = false) String deep,
             @RequestParam(value = "minPrice", defaultValue = "0", required = false) String minPrice,
             @RequestParam(value = "maxPrice", defaultValue = "-1", required = false) String maxPrice,
             @RequestParam(value = "ratingScore", defaultValue = "-1", required = false) String ratingScore,
             @RequestParam(value = "order", defaultValue = "1", required = false) String order,
             @RequestParam(value = "page", required = false, defaultValue = "1") String page
-    ) throws UnsupportedEncodingException, IOException{
+    )throws UnsupportedEncodingException, IOException{
+        long crawlStartTime = System.currentTimeMillis();
+        
         JSONParser jsonParser = new JSONParser();
         List<Product> list_products = new ArrayList<>();
         
@@ -139,10 +142,36 @@ public class SearchController {
         
         List<Product> searchProducts = productDAO.searchProducts(keyword, iMinPrice, iMaxPrice, iRatingScore, order);
         
+        long crawlEndTime = System.currentTimeMillis();
+        
         modelMap.put("keyword", keyword);
+        modelMap.put("crawlTime", crawlEndTime - crawlStartTime);
         modelMap.put("list_products", searchProducts);
         
         
-        return "search";
+        return "search_web";
+    }
+    
+    @RequestMapping(value = "/images", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
+    public String searchImage(
+            ModelMap modelMap,
+            @RequestParam(value = "s", defaultValue = " ", required = false) String keyword,
+            @RequestParam(value = "deep", defaultValue = "10", required = false) String deep,
+            @RequestParam(value = "minPrice", defaultValue = "0", required = false) String minPrice,
+            @RequestParam(value = "maxPrice", defaultValue = "-1", required = false) String maxPrice,
+            @RequestParam(value = "ratingScore", defaultValue = "-1", required = false) String ratingScore,
+            @RequestParam(value = "order", defaultValue = "1", required = false) String order,
+            @RequestParam(value = "page", required = false, defaultValue = "1") String page
+    )throws UnsupportedEncodingException, IOException{
+        long crawlStartTime = System.currentTimeMillis();
+        
+        
+        long crawlEndTime = System.currentTimeMillis();
+        
+        modelMap.put("keyword", keyword);
+        modelMap.put("crawlTime", crawlEndTime - crawlStartTime);
+        
+        
+        return "search_images";
     }
 }

@@ -8,19 +8,42 @@ and open the template in the editor.
     Author     : Phan Hieu
 */
 
+ul{
+    padding-left: 0;
+    margin: 0;
+    list-style-type: none;
+}
+
 .mcard{
     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
     background-color: #fff;
 }
 
+body{
+    color: #666;
+}
+
 body.search{
-    background-color: #e2e1e0;
+    background-color: #fff;
 }
-.logo-container {
-    margin: 150px auto 20px;
+.header-container{
+    padding-top: 15px;
+    padding-right: 50%;
+    border-bottom: 1px solid #ebebeb;
+    background-color: #fafafa;
 }
-body.search .logo-container {
-    margin-top: 10px;
+.header-container .search-container{
+    display: flex;
+}
+.header-container .logo-container {
+    flex: 0;
+    margin: 5px 40px;
+}
+.header-container .search-form {
+    flex: 1;
+}
+.logo-container{
+    margin-top: 100px;
 }
 .logo {
     margin: auto;
@@ -28,6 +51,30 @@ body.search .logo-container {
 }
 .search-form {
     margin: auto;
+}
+.header-container .tab-container{
+    margin-left: 150px;
+}
+.header-container .tab-container li{
+    display: inline-block;
+}
+.header-container .tab-container li.selected{
+    border-bottom: 3px solid #1A73E8;
+    color: #1A73E8;
+    font-weight: 700;
+}
+.header-container .tab-container li a{
+    padding: 15px 10px 10px;
+    font-size: 13px;
+    color: inherit;
+    display: block;
+}
+
+#resultStats{
+    color: #808080;
+    line-height: 43px;
+    font-size: 13px;
+    margin-left: 150px;
 }
 
 .my-container{
@@ -39,6 +86,7 @@ body.search .logo-container {
 }
 .my-container .filter {
     padding: 10px;
+    margin-top: 10px;
 }
 
 .my-container .filter .rating {
@@ -53,21 +101,16 @@ body.search .logo-container {
     padding: 0 5px 0 0;
 }
 
-.order .mcard{
+.order{
     overflow: hidden;
     padding: 3px 8px 1px;
 }
 
-.order .mcard .num_result{
-    line-height: 40px;
-    display: inline-block;
-}
-
-.order .mcard .form-group{
+.order .form-group{
     float: right;
     margin: 0;
 }
-.order .mcard .form-group select{
+.order .form-group select{
     display: inline-block;
     width: auto;
 }

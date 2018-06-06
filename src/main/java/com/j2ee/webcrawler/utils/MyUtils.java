@@ -5,7 +5,13 @@
  */
 package com.j2ee.webcrawler.utils;
 
+import com.opencsv.CSVWriter;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  *
@@ -16,5 +22,13 @@ public class MyUtils {
         T[] result = Arrays.copyOf(first, first.length + second.length); 
         System.arraycopy(second, 0, result, first.length, second.length);
         return result;
+    }
+    
+    public static void exportCsvFile(List entries) throws IOException {
+        try (FileOutputStream fos = new FileOutputStream("items.csv");
+                OutputStreamWriter osw = new OutputStreamWriter(fos, StandardCharsets.UTF_8);
+                CSVWriter writer = new CSVWriter(osw)) {
+            writer.writeAll(entries);
+        }      
     }
 }

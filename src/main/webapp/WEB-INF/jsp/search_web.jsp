@@ -12,7 +12,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
-        <title>${keyword}</title>
+        <title>Search results for ${keyword} - WebCrawler</title>
         
         <link rel="stylesheet" href="${contextPath}/public/css/bootstrap-4.1.0/bootstrap.min.css" />
         <link rel="stylesheet" href="${contextPath}/public/css/fontawesome-free-5.0.10/css/fontawesome-all.min.css" />
@@ -23,12 +23,14 @@
         <script src="${contextPath}/public/js/main.js"></script>
     </head>
     <body class="search">
-        <div class="logo-container">
-            <img class="logo" src="https://raw.githubusercontent.com/ALeeMN/images-for-codepens/master/logo.jpg" width="270" height="95" alt="Google" id="logo"/>
-        </div>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6 search-form">
+        <div class="header-container">
+            <div class="search-container">
+                <div class="logo-container">
+                    <a href="${contextPath}">
+                        <img class="logo" src="${contextPath}/public/images/logo.png" width="70" height="40" alt="Google" id="logo"/>
+                    </a>
+                </div>
+                <div class="search-form">
                     <form action="${contextPath}/search.html">
                         <div class="input-group">
                             <input type="text" class="form-control" name="s" value="${keyword}"/>
@@ -39,11 +41,31 @@
                     </form>
                 </div>
             </div>
+            <div class="tab-container">
+                <ul>
+                    <li class="selected"><a>Web</a></li>
+                    <li><a href="${contextPath}/search/images?s=${keyword}">Images</a></li>
+                    <li><a href="#">Video</a></li>
+                </ul>
+            </div>
         </div>
+        <div id="resultStats">Tìm thấy ${list_products.size()} kết quả (${crawlTime/1000} giây)</div>
+        
         <div class="my-container">
+            <div class="order">
+                <div class="form-group">
+                    <label for="formControlOrder">Sắp xếp theo</label>
+                    <select class="form-control" id="formControlOrder" name="order">
+                        <option value="1" ${param.order.equals("1") ? "selected" : ""}>Giá từ thấp lên cao</option>
+                        <option value="2" ${param.order.equals("2") ? "selected" : ""}>Giá từ cao xuống thấp</option>
+                        <option value="3" ${param.order.equals("3") ? "selected" : ""}>Nhiều sao</option>
+                        <option value="4" ${param.order.equals("4") ? "selected" : ""}>Ít sao</option>
+                    </select>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-md-3">
-                    <div class="mcard filter">
+                    <div class="card filter">
                         <div>Đánh giá</div>
                         <div class="rating" data-start="5">
                             <span class="rating-content">
@@ -157,24 +179,10 @@
                     </div>
                 </div>
                 <div class="col-md-9">
-                    <div class="order">
-                        <div class="mcard">
-                            <div class="num_result">Tìm thấy ${list_products.size()} kết quả</div>
-                            <div class="form-group">
-                                <label for="formControlOrder">Sắp xếp theo</label>
-                                <select class="form-control" id="formControlOrder" name="order">
-                                    <option value="1" ${param.order.equals("1") ? "selected" : ""}>Giá từ thấp lên cao</option>
-                                    <option value="2" ${param.order.equals("2") ? "selected" : ""}>Giá từ cao xuống thấp</option>
-                                    <option value="3" ${param.order.equals("3") ? "selected" : ""}>Nhiều sao</option>
-                                    <option value="4" ${param.order.equals("4") ? "selected" : ""}>Ít sao</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
                     <div class="product-container">
                         <c:forEach var="product" items="${list_products}">
                             <div class="box-product" id="${product.getId()}">
-                                <a class="mcard" href="${product.getUrl()}" target="_blank">
+                                <a class="card" href="${product.getUrl()}" target="_blank">
                                     <div class="product-image">
                                         <img src="${product.getImage()}" alt="${product.getName()}" />
                                     </div>

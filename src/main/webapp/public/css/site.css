@@ -166,6 +166,19 @@ body.search{
     color: #ffc120;
 }
 
+.image-container {
+    overflow: hidden;
+    text-align: center;
+}
+.image-container .image-link{
+    display: inline-block;
+}
+
+.image-container .image-link .image-image{
+    width: 150px;
+    height: 150px;
+}
+
 /*Small devices (landscape phones, 576px and up)*/
 @media (max-width: 767.98px) {
     .product-container .box-product {

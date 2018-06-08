@@ -5,6 +5,8 @@
  */
 package com.j2ee.webcrawler.models;
 
+import java.text.DecimalFormat;
+
 /**
  *
  * @author Phan Hieu
@@ -69,7 +71,8 @@ public class Product {
     }
     
     public String getPriceDisplay() {
-        return price + "đ";
+        DecimalFormat decimalFormat = new DecimalFormat("###,###");
+        return decimalFormat.format(price) + "đ";
     }
 
     public void setPrice(Integer price) {

@@ -49,6 +49,13 @@
                 </ul>
             </div>
         </div>
-        <div id="resultStats">Tìm thấy  kết quả (${crawlTime/1000} giây)</div>
+        <div id="resultStats">Tìm thấy ${list_images.size()} kết quả (${crawlTime/1000} giây)</div>
+        <div class="image-container">
+            <c:forEach var="image" items="${list_images}">
+                <a class="image-link" href="${image.getUrl()}" target="_blank">
+                    <img class="image-image" src="${image.getUrl()}" alt="${keyword}"/>
+                </a>
+            </c:forEach>
+        </div>
     </body>
 </html>

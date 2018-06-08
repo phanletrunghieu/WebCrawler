@@ -68,7 +68,7 @@ public class ProductDAO {
         jdbcTemplate.update(SQL, id);
     }
     
-    public List<Product> searchProducts(String keyword, int minPrice, int maxPrice, int ratingScore, String order) {
+    public List<Product> searchProducts(String keyword, int minPrice, int maxPrice, int ratingScore, String order, int offset, int limit) {
         if(minPrice < 0){
             minPrice = 0;
         }
@@ -100,6 +100,8 @@ public class ProductDAO {
                 SQL += " order by price asc";
                 break;
         }
+        
+        String SQLPagination = SQL + " limit " + limit + " offset " + offset;
         
         List<Product> students = jdbcTemplate.query(SQL, params, new ProductMapper());
         return students;

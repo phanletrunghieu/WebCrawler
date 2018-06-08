@@ -25,7 +25,7 @@
                 <div class="col-md-6 search-form">
                     <form action="${contextPath}/search">
                         <div class="input-group">
-                            <input type="text" class="form-control" name="s" placeholder="Keyword" autocomplete="off">
+                            <input type="text" class="form-control" name="s" placeholder="Keyword" autocomplete="off" />
                             <span class="input-group-append">
                                 <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i></button>
                             </span>

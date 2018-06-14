@@ -10,7 +10,7 @@
         <link rel="stylesheet" href="${contextPath}/public/css/bootstrap-4.1.0/bootstrap.min.css" />
         <link rel="stylesheet" href="${contextPath}/public/css/fontawesome-free-5.0.10/css/fontawesome-all.min.css" />
         <link rel="stylesheet" href="${contextPath}/public/css/site.css" />
-        <script src="${contextPath}/public/js/jquery-3.3.1.slim.min.js"></script>
+        <script src="${contextPath}/public/js/jquery-3.3.1.min.js"></script>
         <script src="${contextPath}/public/js/popper-1.14.0.min.js"></script>
         <script src="${contextPath}/public/js/bootstrap-4.1.0/bootstrap.min.js"></script>
         <script src="${contextPath}/public/js/main.js"></script>

@@ -122,7 +122,7 @@ public class Crawl {
                 product.setImage(x.get("image").toString());
                 product.setPrice(Integer.parseInt(price));
                 product.setOriginalPrice(Integer.parseInt(originalPrice));
-                product.setUrl(x.get("productUrl").toString());
+                product.setUrl("https:" + x.get("productUrl").toString());
                 product.setRatingScore(Float.parseFloat(x.get("ratingScore").toString()));
                 list_products.add(product);
             }
@@ -172,6 +172,7 @@ public class Crawl {
                         
                         Image image = new Image();
                         image.setUrl(imageUrl);
+                        image.setName(e.attr("alt"));
                         list_images.add(image);
                     }
                 }

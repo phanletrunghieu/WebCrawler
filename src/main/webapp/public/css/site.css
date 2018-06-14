@@ -179,6 +179,10 @@ body.search{
     height: 150px;
 }
 
+#btnLoadMoreImage{
+    margin: 30px 0;
+}
+
 /*Small devices (landscape phones, 576px and up)*/
 @media (max-width: 767.98px) {
     .product-container .box-product {

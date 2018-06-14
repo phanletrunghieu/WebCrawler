@@ -103,7 +103,7 @@ public class ProductDAO {
         
         String SQLPagination = SQL + " limit " + limit + " offset " + offset;
         
-        List<Product> students = jdbcTemplate.query(SQL, params, new ProductMapper());
-        return students;
+        List<Product> products = jdbcTemplate.query(SQLPagination, params, new ProductMapper());
+        return products;
     }
 }

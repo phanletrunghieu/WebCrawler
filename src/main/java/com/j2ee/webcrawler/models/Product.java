@@ -6,6 +6,8 @@
 package com.j2ee.webcrawler.models;
 
 import java.text.DecimalFormat;
+import java.util.Map;
+import org.json.simple.JSONObject;
 
 /**
  *
@@ -98,4 +100,20 @@ public class Product {
     public Float getRatingScorePercent() {
         return ratingScore*100/5;
     }
+    
+    public JSONObject toJSONObject() {
+        JSONObject jSONObject = new JSONObject();
+        jSONObject.put("id", getId());
+        jSONObject.put("image", getImage());
+        jSONObject.put("name", getName());
+        jSONObject.put("originalPrice", getOriginalPrice());
+        jSONObject.put("price", getPrice());
+        jSONObject.put("priceDisplay", getPriceDisplay());
+        jSONObject.put("ratingScore", getRatingScore());
+        jSONObject.put("ratingScorePercent", getRatingScorePercent());
+        jSONObject.put("url", getUrl());
+        return jSONObject;
+    }
+    
+    
 }

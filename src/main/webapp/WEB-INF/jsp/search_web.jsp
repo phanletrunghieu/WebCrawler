@@ -17,10 +17,6 @@
         <link rel="stylesheet" href="${contextPath}/public/css/bootstrap-4.1.0/bootstrap.min.css" />
         <link rel="stylesheet" href="${contextPath}/public/css/fontawesome-free-5.0.10/css/fontawesome-all.min.css" />
         <link rel="stylesheet" href="${contextPath}/public/css/site.css" />
-        <script src="${contextPath}/public/js/jquery-3.3.1.slim.min.js"></script>
-        <script src="${contextPath}/public/js/popper-1.14.0.min.js"></script>
-        <script src="${contextPath}/public/js/bootstrap-4.1.0/bootstrap.min.js"></script>
-        <script src="${contextPath}/public/js/main.js"></script>
     </head>
     <body class="search">
         <div class="header-container">
@@ -31,7 +27,7 @@
                     </a>
                 </div>
                 <div class="search-form">
-                    <form action="${contextPath}/search.html">
+                    <form action="${contextPath}/search">
                         <div class="input-group">
                             <input type="text" class="form-control" name="s" value="${keyword}" autocomplete="off" />
                             <span class="input-group-append">
@@ -45,7 +41,6 @@
                 <ul>
                     <li class="selected"><a>Web</a></li>
                     <li><a href="${contextPath}/search/images?s=${keyword}">Images</a></li>
-                    <li><a href="#">Video</a></li>
                 </ul>
             </div>
         </div>
@@ -210,8 +205,21 @@
                             </div>
                         </c:forEach>
                     </div>
+                    
+                    <div class="text-center">
+                        <button id="btnLoadMoreWeb" type="button" class="btn btn-primary">Load more...</button>
+                    </div>
                 </div>
             </div>
         </div>
+        <script>
+            var num_items = ${list_products.size()};
+            var num_items_per_page = ${list_products.size()};
+        </script>
+                                
+        <script src="${contextPath}/public/js/jquery-3.3.1.min.js"></script>
+        <script src="${contextPath}/public/js/popper-1.14.0.min.js"></script>
+        <script src="${contextPath}/public/js/bootstrap-4.1.0/bootstrap.min.js"></script>
+        <script src="${contextPath}/public/js/main.js"></script>
     </body>
 </html>

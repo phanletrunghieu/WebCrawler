@@ -6,7 +6,6 @@
 package com.j2ee.webcrawler.models;
 
 import java.text.DecimalFormat;
-import java.util.Map;
 import org.json.simple.JSONObject;
 
 /**
@@ -21,6 +20,7 @@ public class Product {
     private Integer price;
     private Integer originalPrice;
     private Float ratingScore;
+    private Integer storeInDay;
 
     public Product() {
         this.ratingScore = 0f;
@@ -99,6 +99,14 @@ public class Product {
     
     public Float getRatingScorePercent() {
         return ratingScore*100/5;
+    }
+
+    public Integer getStoreInDay() {
+        return storeInDay;
+    }
+
+    public void setStoreInDay(Integer storeInDay) {
+        this.storeInDay = storeInDay;
     }
     
     public JSONObject toJSONObject() {

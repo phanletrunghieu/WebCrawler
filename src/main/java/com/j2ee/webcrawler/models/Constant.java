@@ -11,4 +11,5 @@ package com.j2ee.webcrawler.models;
  */
 public class Constant {
     public static int ITEM_PER_PAGE = 20;
+    public static int TEMP_STORE = 5;
 }

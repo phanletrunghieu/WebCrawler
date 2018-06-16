@@ -48,7 +48,8 @@ public class SearchController {
             @RequestParam(value = "ratingScore", defaultValue = "-1", required = false) String ratingScore,
             @RequestParam(value = "order", defaultValue = "1", required = false) String order,
             @RequestParam(value = "offset", defaultValue = "0", required = false) String offset,
-            @RequestParam(value = "limit", defaultValue = "0", required = false) String limit
+            @RequestParam(value = "limit", defaultValue = "0", required = false) String limit,
+            @RequestParam(value = "store_in_day", defaultValue = "0", required = false) String store_in_day
     )throws UnsupportedEncodingException, IOException{
         long crawlStartTime = System.currentTimeMillis();
         
@@ -58,14 +59,18 @@ public class SearchController {
         int iRatingScore = Integer.parseInt(ratingScore);
         int iOffset = Integer.parseInt(offset);
         int iLimit = Integer.parseInt(limit);
+        int istore_in_day = Integer.parseInt(store_in_day);
         if(iLimit <= 0)
             iLimit = Constant.ITEM_PER_PAGE;
+        if(istore_in_day <= 0)
+            istore_in_day = Constant.TEMP_STORE;
         
+        productDAO.deleteOldProducts();
         List<Product> searchProducts = productDAO.searchProducts(keyword, iMinPrice, iMaxPrice, iRatingScore, order, iOffset, iLimit);
         
         if(searchProducts.size()<iLimit){
             //craw more
-            List<Product> list_products = Crawl.crawlProduct(keyword, "1");
+            List<Product> list_products = Crawl.crawlProduct(keyword, istore_in_day);
 
             //lưu vào db
             productDAO.createsIfNotExist(list_products);
@@ -93,7 +98,8 @@ public class SearchController {
             @RequestParam(value = "ratingScore", defaultValue = "-1", required = false) String ratingScore,
             @RequestParam(value = "order", defaultValue = "1", required = false) String order,
             @RequestParam(value = "offset", defaultValue = "0", required = false) String offset,
-            @RequestParam(value = "limit", defaultValue = "0", required = false) String limit
+            @RequestParam(value = "limit", defaultValue = "0", required = false) String limit,
+            @RequestParam(value = "store_in_day", defaultValue = "0", required = false) String store_in_day
     )throws UnsupportedEncodingException, IOException{
         //query db
         int iMinPrice = Integer.parseInt(minPrice);
@@ -101,14 +107,18 @@ public class SearchController {
         int iRatingScore = Integer.parseInt(ratingScore);
         int iOffset = Integer.parseInt(offset);
         int iLimit = Integer.parseInt(limit);
+        int istore_in_day = Integer.parseInt(store_in_day);
         if(iLimit <= 0)
             iLimit = Constant.ITEM_PER_PAGE;
+        if(istore_in_day <= 0)
+            istore_in_day = Constant.TEMP_STORE;
         
+        productDAO.deleteOldProducts();
         List<Product> searchProducts = productDAO.searchProducts(keyword, iMinPrice, iMaxPrice, iRatingScore, order, iOffset, iLimit);
         
         if(searchProducts.size()<iLimit){
             //craw more
-            List<Product> list_products = Crawl.crawlProduct(keyword, "1");
+            List<Product> list_products = Crawl.crawlProduct(keyword, istore_in_day);
 
             //lưu vào db
             productDAO.createsIfNotExist(list_products);
@@ -131,20 +141,25 @@ public class SearchController {
             ModelMap modelMap,
             @RequestParam(value = "s", defaultValue = " ", required = false) String keyword,
             @RequestParam(value = "offset", defaultValue = "0", required = false) String offset,
-            @RequestParam(value = "limit", defaultValue = "0", required = false) String limit
+            @RequestParam(value = "limit", defaultValue = "0", required = false) String limit,
+            @RequestParam(value = "store_in_day", defaultValue = "0", required = false) String store_in_day
     )throws UnsupportedEncodingException, IOException{
         long crawlStartTime = System.currentTimeMillis();
         
         int iOffset = Integer.parseInt(offset);
         int iLimit = Integer.parseInt(limit);
+        int istore_in_day = Integer.parseInt(store_in_day);
         if(iLimit <= 0)
             iLimit = Constant.ITEM_PER_PAGE;
+        if(istore_in_day <= 0)
+            istore_in_day = Constant.TEMP_STORE;
         
+        imageDAO.deleteOldImages();
         List<Image> searchImages = imageDAO.searchImages(keyword, iOffset, iLimit);
         
         if(searchImages.size()<iLimit){
             //craw more
-            List<Image> list_images = Crawl.crawlImageLazada(keyword);
+            List<Image> list_images = Crawl.crawlImageLazada(keyword, istore_in_day);
 
             //lưu vào db
             imageDAO.createsIfNotExist(list_images);
@@ -168,18 +183,23 @@ public class SearchController {
     public String searchImageAPI(
             @RequestParam(value = "s", defaultValue = " ", required = false) String keyword,
             @RequestParam(value = "offset", defaultValue = "0", required = false) String offset,
-            @RequestParam(value = "limit", defaultValue = "0", required = false) String limit
+            @RequestParam(value = "limit", defaultValue = "0", required = false) String limit,
+            @RequestParam(value = "store_in_day", defaultValue = "0", required = false) String store_in_day
     )throws UnsupportedEncodingException, IOException{
         int iOffset = Integer.parseInt(offset);
         int iLimit = Integer.parseInt(limit);
+        int istore_in_day = Integer.parseInt(store_in_day);
         if(iLimit <= 0)
             iLimit = Constant.ITEM_PER_PAGE;
+        if(istore_in_day <= 0)
+            istore_in_day = Constant.TEMP_STORE;
         
+        imageDAO.deleteOldImages();
         List<Image> searchImages = imageDAO.searchImages(keyword, iOffset, iLimit);
         
         if(searchImages.size()<iLimit){
             //craw more
-            List<Image> list_images = Crawl.crawlImageLazada(keyword);
+            List<Image> list_images = Crawl.crawlImageLazada(keyword, istore_in_day);
 
             //lưu vào db
             imageDAO.createsIfNotExist(list_images);

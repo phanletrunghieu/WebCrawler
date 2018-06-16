@@ -25,8 +25,8 @@ public class ProductDAO {
     private JdbcTemplate jdbcTemplate;
 
     public void create(Product product) {
-        String SQL = "insert into Products (id, name, url, image, price, originalPrice, ratingScore) values (?, ?, ?, ?, ?, ?, ?)";
-        jdbcTemplate.update(SQL, product.getId(), product.getName(), product.getUrl(), product.getImage(), product.getPrice(), product.getOriginalPrice(), product.getRatingScore());
+        String SQL = "insert into Products (id, name, url, image, price, originalPrice, ratingScore, store_in_day) values (?, ?, ?, ?, ?, ?, ?, ?)";
+        jdbcTemplate.update(SQL, product.getId(), product.getName(), product.getUrl(), product.getImage(), product.getPrice(), product.getOriginalPrice(), product.getRatingScore(), product.getStoreInDay());
     }
     
     public void createIfNotExist(Product product) {
@@ -66,6 +66,11 @@ public class ProductDAO {
     public void delete(String id) {
         String SQL = "delete from Products where id = ?";
         jdbcTemplate.update(SQL, id);
+    }
+    
+    public void deleteOldProducts() {
+        String SQL = "delete from Products where datediff(now(), date_add) > store_in_day;";
+        jdbcTemplate.update(SQL);
     }
     
     public List<Product> searchProducts(String keyword, int minPrice, int maxPrice, int ratingScore, String order, int offset, int limit) {

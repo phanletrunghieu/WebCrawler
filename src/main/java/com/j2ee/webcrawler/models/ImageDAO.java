@@ -23,8 +23,8 @@ public class ImageDAO {
     private JdbcTemplate jdbcTemplate;
 
     public void create(Image image) {
-        String SQL = "insert into Images (name, url) values (?, ?)";
-        jdbcTemplate.update(SQL, image.getName(), image.getUrl());
+        String SQL = "insert into Images (name, url, store_in_day) values (?, ?, ?)";
+        jdbcTemplate.update(SQL, image.getName(), image.getUrl(), image.getStoreInDay());
     }
     
     public void createIfNotExist(Image image) {
@@ -54,6 +54,11 @@ public class ImageDAO {
             return null;
         }
     }
+    public void deleteOldImages() {
+        String SQL = "delete from images where datediff(now(), date_add) > store_in_day;";
+        jdbcTemplate.update(SQL);
+    }
+    
     
     public List<Image> searchImages(String keyword, int offset, int limit) {
         String SQL = "select * from images where name like ? collate utf8_unicode_ci limit ? offset ?";

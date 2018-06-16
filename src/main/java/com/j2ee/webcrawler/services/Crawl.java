@@ -27,22 +27,21 @@ import org.jsoup.select.Elements;
  * @author Phan Hieu
  */
 public class Crawl {
-    public static List<Product> crawlProduct(String keyword, String page) {
-        List<Product> list_products_lazada = Crawl.crawlProductLazada(keyword, page);
-        List<Product> list_products_sendo = Crawl.crawlProductSendo(keyword, page);
+    public static List<Product> crawlProduct(String keyword, int store_in_day) {
+        List<Product> list_products_lazada = Crawl.crawlProductLazada(keyword, store_in_day);
+        List<Product> list_products_sendo = Crawl.crawlProductSendo(keyword, store_in_day);
         
         list_products_lazada.addAll(list_products_sendo);
         
         return list_products_lazada;
     }
     
-    public static List<Product> crawlProductSendo(String keyword, String page) {
-        JSONParser jsonParser = new JSONParser();
+    public static List<Product> crawlProductSendo(String keyword, int store_in_day) {
         List<Product> list_products = new ArrayList<>();
         
         try {
             //sendo
-            String sendoUrl = "https://www.sendo.vn/tim-kiem?q=" + URLEncoder.encode(keyword, "UTF-8") + "&p=" + page;
+            String sendoUrl = "https://www.sendo.vn/tim-kiem?q=" + URLEncoder.encode(keyword, "UTF-8") + "&p=1";
             Document sendoDocument = Jsoup.connect(sendoUrl).get();
             Elements box_products = sendoDocument.select("div.box_product");
             for (Element box_product : box_products) {
@@ -59,6 +58,7 @@ public class Crawl {
                 product.setName(name.html());
                 product.setUrl(name.attr("href"));
                 product.setImage(image.attr("src"));
+                product.setStoreInDay(store_in_day);
                 
                 if (current_price!=null) {
                     String price = current_price.html().replaceAll(",", "").replaceAll("\\.", "");
@@ -86,13 +86,13 @@ public class Crawl {
         return list_products;
     }
     
-    public static List<Product> crawlProductLazada(String keyword, String page) {
+    public static List<Product> crawlProductLazada(String keyword, int store_in_day) {
         JSONParser jsonParser = new JSONParser();
         List<Product> list_products = new ArrayList<>();
         
         try {
             //lazada
-            String lazadaUrl = "https://www.lazada.vn/catalog/?q=" + URLEncoder.encode(keyword, "UTF-8") + "&page=" + page;
+            String lazadaUrl = "https://www.lazada.vn/catalog/?q=" + URLEncoder.encode(keyword, "UTF-8") + "&page=1";
             Document lazadaDocument = Jsoup.connect(lazadaUrl).get();
             String lazadaHTML = lazadaDocument.html();
             int dataIndex1 = lazadaHTML.indexOf("window.pageData=")+"window.pageData=".length();
@@ -124,6 +124,7 @@ public class Crawl {
                 product.setOriginalPrice(Integer.parseInt(originalPrice));
                 product.setUrl("https:" + x.get("productUrl").toString());
                 product.setRatingScore(Float.parseFloat(x.get("ratingScore").toString()));
+                product.setStoreInDay(store_in_day);
                 list_products.add(product);
             }
         } catch (IOException | ParseException ex) {
@@ -133,7 +134,7 @@ public class Crawl {
         return list_products;
     }
     
-    public static List<Image> crawlImageLazada(String keyword) {
+    public static List<Image> crawlImageLazada(String keyword, int store_in_day) {
         JSONParser jsonParser = new JSONParser();
         List<Image> list_images = new ArrayList<>();
         
@@ -173,6 +174,7 @@ public class Crawl {
                         Image image = new Image();
                         image.setUrl(imageUrl);
                         image.setName(e.attr("alt"));
+                        image.setStoreInDay(store_in_day);
                         list_images.add(image);
                     }
                 }

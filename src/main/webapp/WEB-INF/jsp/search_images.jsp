@@ -53,6 +53,10 @@
             </c:forEach>
         </div>
         
+        <div class="loading-container" style="display: none;">
+            <img src="${contextPath}/public/images/loading.gif"/>
+        </div>
+        
         <div class="text-center">
             <button id="btnLoadMoreImage" type="button" class="btn btn-primary">Load more...</button>
         </div>

@@ -59,8 +59,14 @@ $( document ).ready(function() {
            limit: num_items_per_page,
         });
         
+        $("div.loading-container").show();
+        $("#btnLoadMoreWeb").prop('disabled', true);
+        
         var url = window.location.pathname.replace("search", "search/api") + "?" + httpQuery;
         $.get(url, (data, status)=>{
+            $("div.loading-container").hide();
+            $("#btnLoadMoreWeb").prop('disabled', false);
+            
             if(status==="success"){
                 num_items += num_items_per_page;
                 
@@ -95,8 +101,14 @@ $( document ).ready(function() {
            limit: num_items_per_page,
         });
         
+        $("div.loading-container").show();
+        $("#btnLoadMoreImage").prop('disabled', true);
+        
         var url = window.location.pathname.replace("search/images", "search/images/api") + "?" + httpQuery;
         $.get(url, (data, status)=>{
+            $("div.loading-container").hide();
+            $("#btnLoadMoreImage").prop('disabled', false);
+            
             if(status==="success"){
                 num_items += num_items_per_page;
                 
